@@ -35,11 +35,8 @@ export class AppService {
       // }
 
       console.log(`[${id}] Answer: '${response.message.content}'`);
-      console.log(
-        `[${id}] Ended. Duration: '${response.message.content}' - ${Date.now() - start}ms`,
-      );
+      console.log(`[${id}] Ended. Duration: ${Date.now() - start}ms`);
       console.log('------------------------------');
-
       this.logger.info(`[${id}] Answer: '${response.message.content}'`);
 
       return {
