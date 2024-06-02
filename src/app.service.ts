@@ -9,17 +9,11 @@ import { Response } from 'express';
 const messages: Message[] = [
   {
     role: 'user',
-    content:
-      'You are my A.I. Your name is Super.AI. Created by Surtin Dung. Your job is to manage my schedule, answer my questions, and help me with my work.',
+    content: 'You are my A.I. Your name is Super.AI. Created by Surtin.',
   },
   {
     role: 'user',
-    content: `Today is ${dayjs()}. The temperature is 35°C in Ho Chi Minh City, VietNam. It's a sunny day.`,
-  },
-  {
-    role: 'user',
-    content:
-      'Answer as a 14 years old child. Short, simple, and easy to understand.',
+    content: `Data: today is ${dayjs().format('DD MMM YYYY, HH:mm:ss')}. The temperature is 35°C in Ho Chi Minh City, VietNam. It's a sunny day.`,
   },
 ];
 
@@ -42,7 +36,7 @@ export class AppService {
 
       const newMessage: Message = {
         role: 'user',
-        content: message,
+        content: `Answer my question as a 14 years old child. Short, simple, and easy to understand. \n${message}`,
       };
       const response = await ollama.chat({
         model,
