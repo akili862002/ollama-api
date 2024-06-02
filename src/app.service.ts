@@ -6,6 +6,23 @@ import { Logger } from 'winston';
 import { createLogger } from './utils/logs.util';
 import { Response } from 'express';
 
+const messages: Message[] = [
+  {
+    role: 'user',
+    content:
+      'You are my A.I. Your name is Super.AI. Created by Surtin Dung. Your job is to manage my schedule, answer my questions, and help me with my work.',
+  },
+  {
+    role: 'user',
+    content: `Today is ${dayjs()}. The temperature is 35°C in Ho Chi Minh City, VietNam. It's a sunny day.`,
+  },
+  {
+    role: 'user',
+    content:
+      'Answer as a 14 years old child. Short, simple, and easy to understand.',
+  },
+];
+
 @Injectable()
 export class AppService {
   logger: Logger;
@@ -23,13 +40,13 @@ export class AppService {
 
       this.logger.info(`[${id}] Message: '${message}' (model: ${model})`);
 
-      const messageItem: Message = {
+      const newMessage: Message = {
         role: 'user',
         content: message,
       };
       const response = await ollama.chat({
         model,
-        messages: [messageItem],
+        messages: [...messages, newMessage],
       });
       // for await (const part of response) {
       //   process.stdout.write(part.message.content);
@@ -63,20 +80,18 @@ export class AppService {
 
       this.logger.info(`[${id}] Message: '${message}' (model: ${model})`);
 
-      const messageItem: Message = {
+      const newMessage: Message = {
         role: 'user',
         content: message,
       };
       const response = await ollama.chat({
         model,
-        messages: [messageItem],
+        messages: [...messages, newMessage],
         stream: true,
       });
 
       let answer = '';
-      this.logger.info(`[${id}] Answer: `);
       for await (const part of response) {
-        process.stdout.write(part.message.content);
         res.write(part.message.content);
         answer += part.message.content;
       }
